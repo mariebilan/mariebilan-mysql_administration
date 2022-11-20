@@ -1,0 +1,134 @@
+mysql -uroot -p 
+Enter password:
+mysql> CREATE DATABASE bookstore;
+mysql> USE bookstore;
+mysql> CREATE TABLE books(
+    -> id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> title CHAR(100) NOT NULL,
+    -> author CHAR(40) NOT NULL,
+    -> price INT NOT NULL
+    -> );
+mysql> INSERT INTO books (title,author,price) VALUES("It", "Stephen King", "392");
+mysql> INSERT INTO books (title,author,price) VALUES("Misery", "Stephen King", "226");
+mysql> INSERT INTO books (title,author,price) VALUES("Carrie", "Stephen King", "192");
+mysql> INSERT INTO books (title,author,price) VALUES("Fire & blood", "George R. R. Martin", "802");
+mysql> INSERT INTO books (title,author,price) VALUES("A game of thrones", "George R. R. Martin", "778");
+mysql> INSERT INTO books (title,author,price) VALUES("A dance with dragons", "George R. R. Martin", "507");
+mysql> INSERT INTO books (title,author,price) VALUES("I, robot", "Isaac Asimov", "217");
+mysql> INSERT INTO books (title,author,price) VALUES("The end of eternity", "Isaac Asimov", "303");
+mysql> INSERT INTO books (title,author,price) VALUES("2001: a space odyssey", "Arthur C. Clarke", "414");
+mysql> SELECT * FROM books;
++----+-----------------------+---------------------+-------+
+| id | title                 | author              | price |
++----+-----------------------+---------------------+-------+
+|  1 | It                    | Stephen King        |   392 |
+|  2 | Misery                | Stephen King        |   226 |
+|  3 | Carrie                | Stephen King        |   192 |
+|  4 | Fire & blood          | George R. R. Martin |   802 |
+|  5 | A game of thrones     | George R. R. Martin |   778 |
+|  6 | A dance with dragons  | George R. R. Martin |   507 |
+|  7 | I, robot              | Isaac Asimov        |   217 |
+|  8 | The end of eternity   | Isaac Asimov        |   303 |
+|  9 | 2001: a space odyssey | Arthur C. Clarke    |   414 |
++----+-----------------------+---------------------+-------+
+mysql> SELECT title, ANY_VALUE(price) FROM books WHERE author = 'George R. R. Martin' GROUP BY title ORDER BY title;
++----------------------+------------------+
+| title                | ANY_VALUE(price) |
++----------------------+------------------+
+| A dance with dragons |              507 |
+| A game of thrones    |              778 |
+| Fire & blood         |              802 |
++----------------------+------------------+
+sudo mysqldump -u root -p bookstore > /home/marie/Desktop/bookstoreres.sql
+mysql> USE bookstore;
+mysql> DROP TABLE books;
+sudo mysql -u root -p bookstore < /home/marie/Desktop/bookstoreres.sql
+mysql> ALTER TABLE books ADD year YEAR;
+mysql> SELECT * FROM books;
++----+-----------------------+---------------------+-------+------+
+| id | title                 | author              | price | year |
++----+-----------------------+---------------------+-------+------+
+|  1 | It                    | Stephen King        |   392 | NULL |
+|  2 | Misery                | Stephen King        |   226 | NULL |
+|  3 | Carrie                | Stephen King        |   192 | NULL |
+|  4 | Fire & blood          | George R. R. Martin |   802 | NULL |
+|  5 | A game of thrones     | George R. R. Martin |   778 | NULL |
+|  6 | A dance with dragons  | George R. R. Martin |   507 | NULL |
+|  7 | I, robot              | Isaac Asimov        |   217 | NULL |
+|  8 | The end of eternity   | Isaac Asimov        |   303 | NULL |
+|  9 | 2001: a space odyssey | Arthur C. Clarke    |   414 | NULL |
++----+-----------------------+---------------------+-------+------+
+mysql> UPDATE books SET price = '404' WHERE id = 8;
+mysql> SELECT * FROM books;
++----+-----------------------+---------------------+-------+------+
+| id | title                 | author              | price | year |
++----+-----------------------+---------------------+-------+------+
+|  1 | It                    | Stephen King        |   392 | NULL |
+|  2 | Misery                | Stephen King        |   226 | NULL |
+|  3 | Carrie                | Stephen King        |   192 | NULL |
+|  4 | Fire & blood          | George R. R. Martin |   802 | NULL |
+|  5 | A game of thrones     | George R. R. Martin |   778 | NULL |
+|  6 | A dance with dragons  | George R. R. Martin |   507 | NULL |
+|  7 | I, robot              | Isaac Asimov        |   217 | NULL |
+|  8 | The end of eternity   | Isaac Asimov        |   404 | NULL |
+|  9 | 2001: a space odyssey | Arthur C. Clarke    |   414 | NULL |
++----+-----------------------+---------------------+-------+------+
+mysql> INSERT INTO books (title, author, price, year) VALUES ('The shining', 'Stephen King', '317', '1977');
+mysql> SELECT * FROM books;
++----+-----------------------+---------------------+-------+------+
+| id | title                 | author              | price | year |
++----+-----------------------+---------------------+-------+------+
+|  1 | It                    | Stephen King        |   392 | NULL |
+|  2 | Misery                | Stephen King        |   226 | NULL |
+|  3 | Carrie                | Stephen King        |   192 | NULL |
+|  4 | Fire & blood          | George R. R. Martin |   802 | NULL |
+|  5 | A game of thrones     | George R. R. Martin |   778 | NULL |
+|  6 | A dance with dragons  | George R. R. Martin |   507 | NULL |
+|  7 | I, robot              | Isaac Asimov        |   217 | NULL |
+|  8 | The end of eternity   | Isaac Asimov        |   404 | NULL |
+|  9 | 2001: a space odyssey | Arthur C. Clarke    |   414 | NULL |
+| 10 | The shining           | Stephen King        |   317 | 1977 |
++----+-----------------------+---------------------+-------+------+
+mysql> DELETE FROM books WHERE title = 'The shining';
+mysql> SELECT * FROM books;
++----+-----------------------+---------------------+-------+------+
+| id | title                 | author              | price | year |
++----+-----------------------+---------------------+-------+------+
+|  1 | It                    | Stephen King        |   392 | NULL |
+|  2 | Misery                | Stephen King        |   226 | NULL |
+|  3 | Carrie                | Stephen King        |   192 | NULL |
+|  4 | Fire & blood          | George R. R. Martin |   802 | NULL |
+|  5 | A game of thrones     | George R. R. Martin |   778 | NULL |
+|  6 | A dance with dragons  | George R. R. Martin |   507 | NULL |
+|  7 | I, robot              | Isaac Asimov        |   217 | NULL |
+|  8 | The end of eternity   | Isaac Asimov        |   404 | NULL |
+|  9 | 2001: a space odyssey | Arthur C. Clarke    |   414 | NULL |
++----+-----------------------+---------------------+-------+------+
+mysql> CREATE USER 'mister'@'localhost' IDENTIFIED BY 'verbose12AK';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'mister'@'localhost';
+mysql> FLUSH PRIVILEGES;
+mysql> SHOW GRANTS FOR 'mister'@'localhost';
+
+| Grants for mister@localhost                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE, CREATE ROLE, DROP ROLE ON *.* TO `mister`@`localhost`                                                                                                                                                                                                                                                                                                                                                                 |
+| GRANT APPLICATION_PASSWORD_ADMIN,AUDIT_ABORT_EXEMPT,AUDIT_ADMIN,AUTHENTICATION_POLICY_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTION_ADMIN,CLONE_ADMIN,CONNECTION_ADMIN,ENCRYPTION_KEY_ADMIN,FIREWALL_EXEMPT,FLUSH_OPTIMIZER_COSTS,FLUSH_STATUS,FLUSH_TABLES,FLUSH_USER_RESOURCES,GROUP_REPLICATION_ADMIN,GROUP_REPLICATION_STREAM,INNODB_REDO_LOG_ARCHIVE,INNODB_REDO_LOG_ENABLE,PASSWORDLESS_USER_ADMIN,PERSIST_RO_VARIABLES_ADMIN,REPLICATION_APPLIER,REPLICATION_SLAVE_ADMIN,RESOURCE_GROUP_ADMIN,RESOURCE_GROUP_USER,ROLE_ADMIN,SENSITIVE_VARIABLES_OBSERVER,SERVICE_CONNECTION_ADMIN,SESSION_VARIABLES_ADMIN,SET_USER_ID,SHOW_ROUTINE,SYSTEM_USER,SYSTEM_VARIABLES_ADMIN,TABLE_ENCRYPTION_ADMIN,XA_RECOVER_ADMIN ON *.* TO `mister`@`localhost` |
+mysql> SELECT user FROM mysql.user;
++------------------+
+| user             |
++------------------+
+| debian-sys-maint |
+| mister           |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| root             |
++------------------+
+mysql> REVOKE ALL PRIVILEGES ON *.* FROM 'mister'@'localhost';
+mysql> SHOW GRANTS FOR 'mister'@'localhost';
++--------------------------------------------+
+| Grants for mister@localhost                |
++--------------------------------------------+
+| GRANT USAGE ON *.* TO `mister`@`localhost` |
++--------------------------------------------+
+mysql> GRANT ALL PRIVILEGES ON bookstore.* TO 'mister'@'localhost';
+mysql> FLUSH PRIVILEGES;
