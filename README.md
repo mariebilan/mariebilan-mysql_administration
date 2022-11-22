@@ -1,4 +1,4 @@
-# mariebilan-mysql_administration
+#mysql_administration
 Using of primary mysql commands. Database schema, tables, SELECT, WHERE, GROUP BY, ORDER BY, DDL, DCL, DML.
 
 In order to work with these commands, you must have MySQL installed.
